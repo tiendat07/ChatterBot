@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: ChatterBot
-Version: 1.1.0a7
+Version: 1.0.8
 Summary: ChatterBot is a machine learning, conversational dialog engine.
 Home-page: https://github.com/gunthercox/ChatterBot
 Author: Gunther Cox
 Author-email: gunthercx@gmail.com
 License: BSD
-Download-URL: https://github.com/gunthercox/ChatterBot/tarball/1.1.0a7
+Download-URL: https://github.com/gunthercox/ChatterBot/tarball/1.0.8
 Project-URL: Documentation, https://chatterbot.readthedocs.io
 Keywords: ChatterBot,chatbot,chat,bot
 Platform: any
@@ -29,7 +29,6 @@ Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3 :: Only
 Requires-Python: >=3.4, <=3.8
 Description-Content-Type: text/markdown
-License-File: LICENSE
 Requires-Dist: mathparse (<0.2,>=0.1)
 Requires-Dist: python-dateutil (<2.9,>=2.8)
 Requires-Dist: sqlalchemy (<1.4,>=1.3)
