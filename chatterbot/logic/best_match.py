@@ -30,10 +30,10 @@ class BestMatch(LogicAdapter):
 
         # Search for the closest match to the input statement
         for result in search_results:
+            closest_match = result
 
             # Stop searching if a match that is close enough is found
             if result.confidence >= self.maximum_similarity_threshold:
-                closest_match = result
                 break
 
         self.chatbot.logger.info('Using "{}" as a close match to "{}" with a confidence of {}'.format(
@@ -57,7 +57,7 @@ class BestMatch(LogicAdapter):
         }
 
         alternate_response_selection_parameters = {
-            'search_in_response_to': self.chatbot.storage.tagger.get_bigram_pair_string(
+            'search_in_response_to': self.chatbot.storage.tagger.get_text_index_string(
                 input_statement.text
             ),
             'exclude_text': recent_repeated_responses,

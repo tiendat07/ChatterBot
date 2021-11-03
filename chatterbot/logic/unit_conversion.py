@@ -33,8 +33,6 @@ class UnitConversion(LogicAdapter):
             )
             raise OptionalDependencyImportError(message)
 
-        self.unit_registry = UnitRegistry()
-
         self.language = kwargs.get('language', languages.ENG)
         self.cache = {}
         self.patterns = [
@@ -74,21 +72,19 @@ class UnitConversion(LogicAdapter):
                 lambda m: self.handle_matches(m)
             )
         ]
+        self.unit_registry = UnitRegistry()
 
-    def get_unit(self, ureg, unit_variations):
+    def get_unit(self, unit_variations):
         """
         Get the first match unit metric object supported by pint library
         given a variation of unit metric names (Ex:['HOUR', 'hour']).
-
-        :param ureg: unit registry which units are defined and handled
-        :type ureg: pint.registry.UnitRegistry object
 
         :param unit_variations: A list of strings with names of units
         :type unit_variations: str
         """
         for unit in unit_variations:
             try:
-                return getattr(ureg, unit)
+                return getattr(self.unit_registry, unit)
             except Exception:
                 continue
         return None
@@ -99,9 +95,6 @@ class UnitConversion(LogicAdapter):
         target_unit strings from a possible variation of metric unit names
         supported by pint library.
 
-        :param ureg: unit registry which units are defined and handled
-        :type ureg: `pint.registry.UnitRegistry`
-
         :param from_unit: source metric unit
         :type from_unit: str
 
@@ -110,8 +103,8 @@ class UnitConversion(LogicAdapter):
         """
         from_unit_variations = [from_unit.lower(), from_unit.upper()]
         target_unit_variations = [target_unit.lower(), target_unit.upper()]
-        from_unit = self.get_unit(self.unit_registry, from_unit_variations)
-        target_unit = self.get_unit(self.unit_registry, target_unit_variations)
+        from_unit = self.get_unit(from_unit_variations)
+        target_unit = self.get_unit(target_unit_variations)
         return from_unit, target_unit
 
     def handle_matches(self, match):
@@ -132,10 +125,7 @@ class UnitConversion(LogicAdapter):
 
         n = mathparse.parse(n_statement, self.language.ISO_639.upper())
 
-        from_parsed, target_parsed = self.get_valid_units(
-            from_parsed,
-            target_parsed
-        )
+        from_parsed, target_parsed = self.get_valid_units(from_parsed, target_parsed)
 
         if from_parsed is None or target_parsed is None:
             response.confidence = 0.0
